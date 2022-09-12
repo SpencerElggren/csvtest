@@ -1,6 +1,5 @@
 use std::error::Error;
 use std::io;
-use std::process;
 use std::process::exit;
 
 use serde::Deserialize;
@@ -46,10 +45,6 @@ fn create_transactions(mut client_list: Vec<ClientSummary>) -> Result<Vec<Client
         // not saving a vector of transactions and instead adding data as streamed to client list
         create_clients_vector(transaction, &mut client_list)?;
     }
-    // for result in rdr.byte_records() {
-    //     let transaction: Transaction = result?;
-    //     create_clients_vector(transaction, client_list)?;
-    // }
     Ok(client_list)
 }
 
@@ -111,17 +106,13 @@ fn create_clients_vector<'a>(transaction: Transaction, client_list: &mut Vec<Cli
             });
         }
         // assumption that a only a deposit can be the first transaction for a client
-        // make case for first transaction as not deposit or error
     }
 
     Ok(())
 }
 
-// check if numbers add up and correct according to equations above ?
-
 // output should be written as std out
 // write without transaction list of client
-// Do I need a write to csv?
 fn write(clients: Result<Vec<ClientSummary>, Box<dyn Error>>) -> Result<(), Box<dyn Error>> {
     let mut wtr = csv::Writer::from_writer(io::stdout());
     for client in clients.expect("failed to serialize") {
@@ -146,5 +137,5 @@ fn main() {
         println!("{}", err)
     }
 
-    process::exit(1);
+    exit(1);
 }
