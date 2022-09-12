@@ -52,10 +52,7 @@ fn create_transactions(mut client_list: Vec<ClientSummary>) -> Result<Vec<Client
 
 fn create_clients_vector<'a>(transaction: Transaction, client_list: &mut Vec<ClientSummary<'_>>) -> Result<(), Box<dyn Error>> {
 
-    // One pass over transactions
-    // for transaction in transactions {
-    // //     copy past
-    // }
+    // reading transactions as streamed, here creating and updating client data
     for mut client in client_list.clone() {
         if client.client == transaction.client {
             client.prev_transactions.push(transaction);
